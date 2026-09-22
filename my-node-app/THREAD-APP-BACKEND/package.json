@@ -1,0 +1,23 @@
+{
+  "name": "THREAD-APP-BACKEND",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "tsc-watch --onSuccess \"npm start\""
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.2",
+    "tsc-watch": "^7.2.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "@as-integrations/express5": "^1.1.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "graphql": "^17.0.2"
+  }
+}
