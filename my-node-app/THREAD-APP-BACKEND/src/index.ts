@@ -1,9 +1,9 @@
-
 import express from "express";
 // import cors from "cors";
 
 import { expressMiddleware } from "@as-integrations/express5";
 import createApolloGraphqlServer from "./graphql";
+import UserService from "./services/user";
 
 async function init() {
   const app = express();
@@ -79,8 +79,25 @@ async function init() {
   });
 
   // Apollo GraphQL route
-  app.use("/graphql", expressMiddleware(await createApolloGraphqlServer()));
-  console.log('DATABASE_URL:  ', process.env.DATABASE_URL);
+  app.use(
+    "/graphql",
+    expressMiddleware(await createApolloGraphqlServer(), {
+      context: async ({ req }) => {
+        const token = req.headers["token"];
+        if (typeof token === "string") {
+          try {
+            const user = UserService.decodeJWTToken(token);
+            return { user };
+          } catch (error) {
+            return {};
+          }
+        }
+    
+        return {};
+      },
+    })
+  );
+  console.log("DATABASE_URL:  ", process.env.DATABASE_URL);
 
   app.listen(PORT, () => {
     console.log("Server started at port:", PORT);
